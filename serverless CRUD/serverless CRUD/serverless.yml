@@ -1,0 +1,130 @@
+service: doc2
+
+
+frameworkVersion: "3"
+
+
+plugins:
+
+  - serverless-offline
+
+  - serverless-prune-plugin
+
+  - serverless-esbuild
+
+
+
+custom:
+
+  simulate:
+
+    configFiles:
+
+      - serverless.yml
+
+  serverless-offline:
+
+    httpPort: 4000
+
+    websocketPort: 4001
+
+    lambdaPort: 4002
+
+  esbuild:
+
+    bundle: true
+
+    minify: false
+
+
+
+provider:
+
+  name: aws
+
+  runtime: nodejs18.x
+
+  region: ap-south-1
+
+  stage: dev
+
+  versionFunctions: false
+
+
+
+functions:
+
+  create:
+
+    handler: src/Controller/index.create
+
+    events:
+
+      - http:
+
+          path: create
+
+          method: post
+
+          cors:
+
+            origin: "*"
+
+            headers: "*"
+
+
+  retrieve:
+
+    handler: src/Controller/index.retrieve
+
+    events:
+
+      - http:
+
+          path: retrieve
+
+          method: get
+
+          cors:
+
+            origin: "*"
+
+            headers: "*"
+
+
+  update:
+
+    handler: src/Controller/index.update
+
+    events:
+
+      - http:
+
+          path: update/{id}
+
+          method: put
+
+          cors:
+
+            origin: "*"
+
+            headers: "*"
+
+
+  remove:
+
+    handler: src/Controller/index.remove
+
+    events:
+
+      - http:
+
+          path: remove/{id}
+
+          method: delete
+
+          cors:
+
+            origin: "*"
+
+            headers: "*"

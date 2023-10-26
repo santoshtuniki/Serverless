@@ -1,0 +1,87 @@
+service: serverless
+
+frameworkVersion: '3'
+
+ 
+
+plugins:
+
+  # - serverless-webpack
+
+  # - serverless-http
+
+  - serverless-offline
+
+  - serverless-prune-plugin
+
+  - serverless-esbuild
+
+ 
+
+custom:
+
+  simulate:
+
+    configFiles:
+
+      - serverless.yml
+
+      - vpc.yml
+
+     
+
+  # mongoConnString: "MONGO_URI"
+
+  # personMongoTable: "personSchema"   # tableName which we want
+
+  serverless-offline:
+
+    httpPort: 4000
+
+    websocketPort: 4001
+
+    lambdaPort: 4002
+
+ 
+
+  esbuild:
+
+    bundle: true
+
+    minify: false
+
+   
+
+provider:
+
+  name: aws
+
+  runtime: nodejs14.x
+
+  stage: dev
+
+  region: ap-south-1
+
+  versionFunctions: false
+
+
+
+functions:
+
+   create:
+
+    handler: Controller/personController.create
+
+    events:
+
+      - http:
+
+          path: create
+
+          method: post
+
+          cors:
+
+            origin: "*"
+
+            headers: "*"
